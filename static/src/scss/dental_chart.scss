@@ -1,0 +1,203 @@
+.o_field_dental_chart,
+.o_dental_chart {
+    width: 100%;
+    min-width: 100%;
+}
+
+.o_dental_chart {
+    overflow: visible;
+    padding: 16px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    box-sizing: border-box;
+
+    svg {
+        display: block;
+        width: 100%;
+        max-width: none;
+    }
+
+    .dental-tooth {
+        cursor: pointer;
+        transition: transform 0.15s ease;
+
+        &:hover {
+            filter: brightness(1.15);
+        }
+
+        &:active {
+            transform: scale(0.95);
+        }
+
+        .tooth-path {
+            stroke: #333;
+            stroke-width: 1.5;
+            stroke-linejoin: round;
+        }
+
+        .tooth-number {
+            fill: #666;
+            font-size: 9px;
+            font-family: monospace;
+            text-anchor: middle;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .tooth-label {
+            fill: #fff;
+            font-size: 8px;
+            font-family: monospace;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+            user-select: none;
+            font-weight: bold;
+        }
+
+        &.tooth-missing {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        &.tooth-selected {
+            .tooth-path {
+                stroke: #1565C0;
+                stroke-width: 3;
+            }
+        }
+    }
+
+    .dental-arch-label {
+        fill: #333;
+        font-size: 13px;
+        font-weight: 600;
+        text-anchor: middle;
+    }
+
+    .dental-quadrant-line {
+        stroke: #ccc;
+        stroke-width: 1;
+        stroke-dasharray: 4, 4;
+    }
+
+    .dental-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 12px;
+        margin-top: 12px;
+        padding: 8px 12px;
+        background: #fff;
+        border-radius: 6px;
+        border: 1px solid #e0e0e0;
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: #555;
+
+            .legend-swatch {
+                width: 14px;
+                height: 14px;
+                border-radius: 3px;
+                border: 1px solid rgba(0,0,0,0.15);
+                flex-shrink: 0;
+            }
+        }
+    }
+}
+
+.o_dental_overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+
+    .o_dental_dialog {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        width: 360px;
+        max-width: 90vw;
+
+        .o_dental_dialog_title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: 600;
+            font-size: 16px;
+
+            .o_dental_dialog_close {
+                background: none;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: #999;
+                line-height: 1;
+                padding: 0;
+            }
+        }
+
+        .o_dental_dialog_body {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            label {
+                font-size: 13px;
+                font-weight: 500;
+                color: #333;
+            }
+
+            select, input, textarea {
+                width: 100%;
+                padding: 6px 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 13px;
+                background: #fff;
+                box-sizing: border-box;
+            }
+
+            textarea {
+                resize: vertical;
+            }
+        }
+
+        .o_dental_dialog_footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            padding: 12px 16px;
+            border-top: 1px solid #e0e0e0;
+
+            .o_dental_btn {
+                padding: 6px 16px;
+                border-radius: 4px;
+                border: 1px solid transparent;
+                font-size: 13px;
+                cursor: pointer;
+
+                &.o_dental_btn_secondary {
+                    background: #f5f5f5;
+                    border-color: #ccc;
+                    color: #333;
+                }
+
+                &.o_dental_btn_primary {
+                    background: #1565C0;
+                    color: #fff;
+                }
+            }
+        }
+    }
+}

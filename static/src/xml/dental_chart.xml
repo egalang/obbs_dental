@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="obbs_dental.DentalChart">
+    <div class="o_dental_chart">
+        <svg t-att-viewBox="state.viewBox" xmlns="http://www.w3.org/2000/svg"
+             width="100%" height="auto" t-on-click="onSvgClick">
+            <line x1="0" t-att-y1="state.archCenterY" t-att-x2="state.viewBoxWidth" t-att-y2="state.archCenterY"
+                  class="dental-quadrant-line"/>
+            <text t-att-x="state.viewBoxWidth / 2" t-att-y="14" class="dental-arch-label">Upper</text>
+            <text t-att-x="state.viewBoxWidth / 2" t-att-y="state.archCenterY + 14" class="dental-arch-label">Lower</text>
+
+            <t t-foreach="state.teeth" t-as="t" t-key="t.number">
+                    <g t-att-transform="'translate(' + t.x + ',' + t.y + ')'"
+                   t-att-class="'dental-tooth' + (t.missing ? ' tooth-missing' : '') + (state.selectedTooth === t.number ? ' tooth-selected' : '')"
+                   t-att-data-tooth="t.number">
+                    <path t-att-d="t.path" class="tooth-path"
+                          t-att-fill="t.missing ? '#eee' : (t.color || '#fff')"/>
+                    <text x="28" y="44" class="tooth-number" t-esc="t.number"/>
+                    <text t-if="!t.missing &amp;&amp; t.label" x="28" y="58" class="tooth-label" t-esc="t.label"/>
+                </g>
+            </t>
+        </svg>
+
+        <div class="dental-legend" t-if="state.legendItems.length">
+            <t t-foreach="state.legendItems" t-as="item" t-key="item.value">
+                <span class="legend-item">
+                    <span class="legend-swatch" t-att-style="'background:' + item.color"/>
+                    <t t-esc="item.label"/>
+                </span>
+            </t>
+        </div>
+
+        <div t-if="state.selectedTooth !== null" class="o_dental_overlay"
+             t-on-click="closeDialog">
+            <div class="o_dental_dialog" t-on-click="(e) => e.stopPropagation()">
+                <div class="o_dental_dialog_title">
+                    <span>Tooth #<t t-esc="state.selectedTooth"/></span>
+                    <button type="button" class="o_dental_dialog_close" t-on-click="closeDialog">×</button>
+                </div>
+                <div class="o_dental_dialog_body">
+                    <label>Condition</label>
+                    <select t-on-change="onConditionChange">
+                        <option value="">-- Select --</option>
+                        <t t-foreach="state.conditionOptions" t-as="opt" t-key="opt[0]">
+                            <option t-att-value="opt[0]"
+                                    t-att-selected="state.editCondition === opt[0]"
+                                    t-esc="opt[1]"/>
+                        </t>
+                    </select>
+                    <label>Treatment</label>
+                    <input type="text" t-att-value="state.editTreatment"
+                           t-on-change="onTreatmentChange"
+                           placeholder="e.g. Composite filling"/>
+                    <label>Notes</label>
+                    <textarea rows="2" t-att-value="state.editNotes"
+                              t-on-change="onNotesChange"
+                              placeholder="Optional notes"/>
+                </div>
+                <div class="o_dental_dialog_footer">
+                    <button type="button" class="o_dental_btn o_dental_btn_secondary" t-on-click="closeDialog">Cancel</button>
+                    <button type="button" class="o_dental_btn o_dental_btn_primary" t-on-click="saveTooth">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</t>
+
+</templates>
