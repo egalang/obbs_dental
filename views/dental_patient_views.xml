@@ -117,30 +117,15 @@
                             <field name="tooth_conditions" widget="dental_chart"/>
                         </page>
                         <page string="Dental History">
-                            <field name="dental_history_ids">
+                            <field name="tooth_surface_ids">
                                 <list>
-                                    <field name="tooth_number"/>
+                                    <field name="tooth_id" optional="show"/>
+                                    <field name="surface"/>
                                     <field name="condition"/>
-                                    <field name="arch"/>
-                                    <field name="quadrant"/>
-                                    <field name="date"/>
                                     <field name="treatment"/>
+                                    <field name="notes"/>
+                                    <field name="date"/>
                                 </list>
-                                <form>
-                                    <group>
-                                        <group string="Tooth">
-                                            <field name="tooth_number" placeholder="e.g. 11, 26, 36"/>
-                                            <field name="condition"/>
-                                        </group>
-                                        <group string="Details">
-                                            <field name="date"/>
-                                            <field name="treatment" placeholder="e.g. Composite filling, Root canal"/>
-                                        </group>
-                                    </group>
-                                    <group string="Notes">
-                                        <field name="notes" placeholder="e.g. Patient reports sensitivity, additional observations"/>
-                                    </group>
-                                </form>
                             </field>
                         </page>
                         <page string="Consents">

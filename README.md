@@ -315,13 +315,17 @@ The module is designed to integrate seamlessly with existing Odoo applications.
 
 ---
 
-## Milestone 3 — Interactive Odontogram ✅ *(Completed)*
+## Milestone 3 — Interactive Odontogram ✅ *(Completed — V2 Surface-Based)*
 
-- [x] OWL Dental Chart
-- [x] Tooth Selection
-- [x] Conditions
-- [x] Treatments
-- [x] Color-coded Visualization
+- [x] OWL Dental Chart (surface-based circular odontogram)
+- [x] Five independent surfaces per tooth — Center circle + 4 arc quadrants (Top/Bottom/Left/Right)
+- [x] Surface-specific condition, treatment, and notes
+- [x] Complete FDI notation (11–48 permanent + 51–85 pediatric) — 52 teeth
+- [x] Modular architecture: `odontogram.js`, `tooth_layout.js`, `tooth_palette.js`, `tooth_dialog.js`
+- [x] `dental.tooth` + `dental.tooth.surface` normalized data model
+- [x] Surface-specific color coding and click-to-edit dialog
+- [x] Immediate Dental History tab refresh after save (no page reload required)
+- [x] Circular 90° quadrant arcs with distinct stroke outlines
 
 ---
 

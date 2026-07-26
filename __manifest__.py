@@ -25,12 +25,16 @@ Electronic Dental Record (EDR).
         'views/dental_medical_history_views.xml',
         'views/dental_history_views.xml',
         'views/dental_consent_views.xml',
+        'views/dental_tooth_views.xml',
         'views/menus.xml',
     ],
 
     'assets': {
         'web.assets_backend': [
-            'obbs_dental/static/src/js/dental_chart.js',
+            'obbs_dental/static/src/js/tooth_palette.js',
+            'obbs_dental/static/src/js/tooth_layout.js',
+            'obbs_dental/static/src/js/tooth_dialog.js',
+            'obbs_dental/static/src/js/odontogram.js',
             'obbs_dental/static/src/xml/**/*',
             'obbs_dental/static/src/scss/dental_chart.scss',
         ],

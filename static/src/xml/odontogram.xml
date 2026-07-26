@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="obbs_dental.Odontogram">
+    <div class="o_dental_chart">
+        <svg t-att-viewBox="state.viewBox" xmlns="http://www.w3.org/2000/svg"
+             width="100%" height="auto" t-on-click="onSvgClick">
+            <line t-att-x1="state.midlineX" y1="0" t-att-x2="state.midlineX" t-att-y2="state.viewBoxHeight" class="dental-midline"/>
+            <text t-att-x="state.midlineX" y="16" class="dental-arch-label" text-anchor="middle">Pediatric</text>
+            <text t-att-x="state.midlineX" y="72" class="dental-arch-label" text-anchor="middle">Upper</text>
+            <text t-att-x="state.midlineX" y="150" class="dental-arch-label" text-anchor="middle">Lower</text>
+            <text t-att-x="state.midlineX" y="228" class="dental-arch-label" text-anchor="middle">Pediatric</text>
+
+            <t t-foreach="state.teeth" t-as="t" t-key="t.number">
+                <g t-att-transform="'translate(' + t.x + ',' + t.y + ')'"
+                   class="dental-tooth">
+                    <circle cx="0" cy="0" r="16" fill="none" stroke="#888" stroke-width="1.5"/>
+                    <t t-foreach="Object.keys(t.surfaces)" t-as="s" t-key="s">
+                        <path t-att-d="srfPath(s)"
+                              t-att-fill="t.surfaces[s].color"
+                              class="tooth-surface"
+                              stroke="#666" stroke-width="2.5" stroke-linejoin="round"/>
+                    </t>
+                    <text x="0" y="22" class="tooth-number" text-anchor="middle"
+                          t-esc="t.number"/>
+                </g>
+            </t>
+        </svg>
+
+        <div class="dental-legend" t-if="state.legendItems.length">
+            <t t-foreach="state.legendItems" t-as="item" t-key="item.value">
+                <span class="legend-item">
+                    <span class="legend-swatch" t-att-style="'background:' + item.color"/>
+                    <t t-esc="item.label"/>
+                </span>
+            </t>
+        </div>
+
+        <ToothDialog t-if="state.selectedTooth !== null"
+                     t-props="dialogProps"/>
+    </div>
+</t>
+
+</templates>

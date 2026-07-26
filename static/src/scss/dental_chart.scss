@@ -20,63 +20,37 @@
 
     .dental-tooth {
         cursor: pointer;
-        transition: transform 0.15s ease;
 
-        &:hover {
-            filter: brightness(1.15);
+        > circle {
+            pointer-events: none;
         }
 
-        &:active {
-            transform: scale(0.95);
-        }
-
-        .tooth-path {
-            stroke: #333;
-            stroke-width: 1.5;
+        .tooth-surface {
             stroke-linejoin: round;
+            transition: opacity 0.12s ease;
+
+            &:hover {
+                opacity: 0.75;
+            }
         }
 
         .tooth-number {
             fill: #666;
-            font-size: 9px;
-            font-family: monospace;
-            text-anchor: middle;
-            pointer-events: none;
-            user-select: none;
-        }
-
-        .tooth-label {
-            fill: #fff;
             font-size: 8px;
             font-family: monospace;
             text-anchor: middle;
-            dominant-baseline: central;
             pointer-events: none;
             user-select: none;
-            font-weight: bold;
-        }
-
-        &.tooth-missing {
-            opacity: 0.3;
-            pointer-events: none;
-        }
-
-        &.tooth-selected {
-            .tooth-path {
-                stroke: #1565C0;
-                stroke-width: 3;
-            }
         }
     }
 
     .dental-arch-label {
         fill: #333;
-        font-size: 13px;
+        font-size: 11px;
         font-weight: 600;
-        text-anchor: middle;
     }
 
-    .dental-quadrant-line {
+    .dental-midline {
         stroke: #ccc;
         stroke-width: 1;
         stroke-dasharray: 4, 4;
@@ -152,10 +126,23 @@
             flex-direction: column;
             gap: 10px;
 
-            label {
-                font-size: 13px;
-                font-weight: 500;
-                color: #333;
+            .o_dental_field {
+                label {
+                    display: block;
+                    font-size: 13px;
+                    font-weight: 500;
+                    color: #333;
+                    margin-bottom: 3px;
+                }
+
+                .o_dental_surface_badge {
+                    font-size: 13px;
+                    color: #1565C0;
+                    font-weight: 500;
+                    padding: 4px 8px;
+                    background: #e3f2fd;
+                    border-radius: 4px;
+                }
             }
 
             select, input, textarea {

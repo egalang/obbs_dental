@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="obbs_dental.ToothDialog">
+    <div class="o_dental_overlay" t-on-click="props.onClose">
+        <div class="o_dental_dialog" t-on-click="(e) => e.stopPropagation()">
+            <div class="o_dental_dialog_title">
+                <span>Tooth #<t t-esc="props.toothNumber"/> — <t t-esc="surfaceLabel"/></span>
+                <button type="button" class="o_dental_dialog_close" t-on-click="props.onClose">×</button>
+            </div>
+            <div class="o_dental_dialog_body">
+                <div class="o_dental_field">
+                    <label>Surface</label>
+                    <div class="o_dental_surface_badge"><t t-esc="props.surface"/> — <t t-esc="surfaceLabel"/></div>
+                </div>
+                <div class="o_dental_field">
+                    <label>Condition</label>
+                    <select t-on-change="props.onConditionChange">
+                        <option value="">-- Select --</option>
+                        <t t-foreach="props.conditionOptions" t-as="opt" t-key="opt[0]">
+                            <option t-att-value="opt[0]"
+                                    t-att-selected="props.condition === opt[0]"
+                                    t-esc="opt[1]"/>
+                        </t>
+                    </select>
+                </div>
+                <div class="o_dental_field">
+                    <label>Treatment</label>
+                    <input type="text" t-att-value="props.treatment"
+                           t-on-change="props.onTreatmentChange"
+                           placeholder="e.g. Composite filling"/>
+                </div>
+                <div class="o_dental_field">
+                    <label>Notes</label>
+                    <textarea rows="2" t-att-value="props.notes"
+                              t-on-change="props.onNotesChange"
+                              placeholder="Optional notes"/>
+                </div>
+            </div>
+            <div class="o_dental_dialog_footer">
+                <button type="button" class="o_dental_btn o_dental_btn_secondary" t-on-click="props.onClose">Cancel</button>
+                <button type="button" class="o_dental_btn o_dental_btn_primary" t-on-click="props.onSave">Save</button>
+            </div>
+        </div>
+    </div>
+</t>
+
+</templates>

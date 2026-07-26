@@ -63,6 +63,13 @@ class DentalPatient(models.Model):
 
     medical_history_ids = fields.One2many('dental.medical.history', 'patient_id', string='Medical History')
     dental_history_ids = fields.One2many('dental.history', 'patient_id', string='Dental History')
+    tooth_ids = fields.One2many('dental.tooth', 'patient_id', string='Teeth')
+    tooth_surface_ids = fields.One2many(
+        'dental.tooth.surface',
+        compute='_compute_tooth_surface_ids',
+        string='Tooth Surfaces',
+        readonly=True,
+    )
     consent_ids = fields.One2many('dental.consent', 'patient_id', string='Consents')
 
     active = fields.Boolean(string='Active', default=True)
@@ -113,18 +120,27 @@ class DentalPatient(models.Model):
             if rec.email and not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', rec.email):
                 raise ValidationError('Invalid email address format.')
 
-    @api.depends('dental_history_ids')
+    @api.depends('tooth_ids', 'tooth_ids.surface_ids', 'tooth_ids.surface_ids.condition', 'tooth_ids.surface_ids.treatment', 'tooth_ids.surface_ids.notes')
     def _compute_tooth_conditions(self):
         import json
         for rec in self:
             data = {}
-            for hist in rec.dental_history_ids.sorted('date', reverse=True):
-                tn = hist.tooth_number
-                if tn and tn not in data:
-                    data[tn] = {
-                        'condition': hist.condition,
-                        'treatment': hist.treatment,
-                        'notes': hist.notes,
-                        'date': str(hist.date) if hist.date else None,
-                    }
+            for tooth in rec.tooth_ids:
+                tn = tooth.tooth_number
+                latest = {}
+                for srf in tooth.surface_ids.sorted('date', reverse=True):
+                    if srf.surface not in latest:
+                        latest[srf.surface] = {
+                            'condition': srf.condition,
+                            'treatment': srf.treatment,
+                            'notes': srf.notes,
+                            'date': str(srf.date) if srf.date else None,
+                        }
+                if latest:
+                    data[tn] = {'surfaces': latest}
             rec.tooth_conditions = json.dumps(data)
+
+    @api.depends('tooth_ids', 'tooth_ids.surface_ids')
+    def _compute_tooth_surface_ids(self):
+        for rec in self:
+            rec.tooth_surface_ids = rec.mapped('tooth_ids.surface_ids')
