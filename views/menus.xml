@@ -10,4 +10,10 @@
               parent="menu_dental_root"
               sequence="10"
               action="action_dental_patient"/>
+
+    <menuitem id="menu_dental_conditions"
+              name="Conditions"
+              parent="menu_dental_root"
+              sequence="20"
+              action="action_dental_condition"/>
 </odoo>

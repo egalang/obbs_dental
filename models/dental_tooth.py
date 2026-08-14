@@ -13,10 +13,10 @@ class DentalTooth(models.Model):
 
     display_name = fields.Char(string='Name', compute='_compute_display_name', store=True)
 
-    _sql_constraints = [
-        ('unique_patient_tooth', 'unique(patient_id, tooth_number)',
-         'A tooth record for this patient and tooth number already exists.'),
-    ]
+    _unique_patient_tooth = models.Constraint(
+        'unique (patient_id, tooth_number)',
+        'A tooth record for this patient and tooth number already exists.',
+    )
 
     @api.depends('patient_id', 'tooth_number')
     def _compute_display_name(self):

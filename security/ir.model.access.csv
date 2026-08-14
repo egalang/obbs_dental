@@ -11,3 +11,5 @@ access_dental_tooth_manager,dental.tooth manager,model_dental_tooth,group_dental
 access_dental_tooth_assistant,dental.tooth assistant,model_dental_tooth,group_dental_assistant,1,1,1,0
 access_dental_tooth_surface_manager,dental.tooth.surface manager,model_dental_tooth_surface,group_dental_manager,1,1,1,1
 access_dental_tooth_surface_assistant,dental.tooth.surface assistant,model_dental_tooth_surface,group_dental_assistant,1,1,1,0
+access_dental_condition_manager,dental.condition manager,model_dental_condition,group_dental_manager,1,1,1,1
+access_dental_condition_assistant,dental.condition assistant,model_dental_condition,group_dental_assistant,1,1,1,0

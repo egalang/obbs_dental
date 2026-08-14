@@ -17,12 +17,18 @@
                     <label>Condition</label>
                     <select t-on-change="props.onConditionChange">
                         <option value="">-- Select --</option>
-                        <t t-foreach="props.conditionOptions" t-as="opt" t-key="opt[0]">
-                            <option t-att-value="opt[0]"
-                                    t-att-selected="props.condition === opt[0]"
-                                    t-esc="opt[1]"/>
+                        <t t-foreach="props.conditionOptions" t-as="opt" t-key="opt.code">
+                            <option t-att-value="opt.code"
+                                    t-att-selected="props.condition === opt.code"
+                                    t-att-style="'color: ' + (opt.color || '#000')">
+                                <t t-esc="opt.label"/>
+                            </option>
                         </t>
                     </select>
+                    <div class="o_dental_wholerooth_hint" t-if="props.wholeTooth">
+                        <span class="legend-swatch" t-att-style="'background:' + selectedColor"/>
+                        Applies to the entire tooth (all surfaces)
+                    </div>
                 </div>
                 <div class="o_dental_field">
                     <label>Treatment</label>

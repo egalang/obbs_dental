@@ -4,12 +4,11 @@ import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { standardFieldProps } from "@web/views/fields/standard_field_props";
 
-import { ToothDialog, buildConditionOptions } from "./tooth_dialog";
+import { ToothDialog } from "./tooth_dialog";
 import {
     SURFACES, SURFACE_PATHS, SURFACE_BBOX, FDI_NUMBERS,
     getToothPosition, hitTestSurface, VIEWBOX, MIDLINE_X,
 } from "./tooth_layout";
-import { CONDITION_COLORS, CONDITION_LABELS } from "./tooth_palette";
 
 class Odontogram extends Component {
     static template = "obbs_dental.Odontogram";
@@ -18,6 +17,7 @@ class Odontogram extends Component {
 
     setup() {
         this.orm = useService("orm");
+        this.notification = useService("notification");
         this.state = useState({
             teeth: [],
             _data: {},
@@ -26,14 +26,33 @@ class Odontogram extends Component {
             editCondition: "",
             editTreatment: "",
             editNotes: "",
-            conditionOptions: buildConditionOptions(),
+            conditionOptions: [],
             legendItems: [],
             viewBox: VIEWBOX,
             midlineX: MIDLINE_X,
             viewBoxHeight: parseInt(VIEWBOX.split(' ')[3], 10),
         });
+        this._loadConditionOptions();
         onWillUpdateProps(() => this._loadFromRecord());
         this._loadFromRecord();
+    }
+
+    async _loadConditionOptions() {
+        try {
+            const conditions = await this.orm.searchRead(
+                "dental.condition", [], ["code", "name", "color", "apply_to_whole_tooth"]
+            );
+            this.state.conditionOptions = conditions
+                .map(c => ({
+                    code: c.code,
+                    label: c.name,
+                    color: c.color,
+                    wholeTooth: c.apply_to_whole_tooth,
+                }))
+                .sort((a, b) => a.label.localeCompare(b.label));
+        } catch (err) {
+            console.error("Odontogram: Failed to load conditions:", err);
+        }
     }
 
     _loadFromRecord() {
@@ -52,7 +71,6 @@ class Odontogram extends Component {
 
     _buildTeeth(data) {
         const teeth = [];
-        const usedConditions = new Set();
         for (const num of FDI_NUMBERS) {
             const pos = getToothPosition(num);
             const toothData = data[String(num)] || { surfaces: {} };
@@ -61,12 +79,11 @@ class Odontogram extends Component {
                 const info = (toothData.surfaces || {})[srf] || {};
                 const cond = info.condition || null;
                 if (cond) {
-                    usedConditions.add(cond);
                     surfaces[srf] = {
                         condition: cond,
+                        color: info.color || "#fff",
                         treatment: info.treatment || "",
                         notes: info.notes || "",
-                        color: CONDITION_COLORS[cond] || "#fff",
                     };
                 } else {
                     surfaces[srf] = {
@@ -88,21 +105,21 @@ class Odontogram extends Component {
     }
 
     _buildLegend(data) {
-        const conditions = new Set();
+        const seen = {};
         for (const info of Object.values(data)) {
             if (info.surfaces) {
                 for (const srf of Object.values(info.surfaces)) {
-                    if (srf.condition) conditions.add(srf.condition);
+                    if (srf.condition && srf.code) {
+                        seen[srf.code] = {
+                            value: srf.code,
+                            color: srf.color || "#ccc",
+                            label: srf.label || srf.code,
+                        };
+                    }
                 }
             }
         }
-        return Array.from(conditions)
-            .map(c => ({
-                value: c,
-                color: CONDITION_COLORS[c] || "#ccc",
-                label: CONDITION_LABELS[c] || c,
-            }))
-            .sort((a, b) => a.label.localeCompare(b.label));
+        return Object.values(seen).sort((a, b) => a.label.localeCompare(b.label));
     }
 
     onSvgClick(ev) {
@@ -149,6 +166,13 @@ class Odontogram extends Component {
         this.state.editNotes = ev.target.value;
     }
 
+    get selectedWholeTooth() {
+        const opt = this.state.conditionOptions.find(
+            o => o.code === this.state.editCondition
+        );
+        return opt ? opt.wholeTooth : false;
+    }
+
     async saveTooth() {
         const toothNumber = this.state.selectedTooth;
         const surface = this.state.selectedSurface;
@@ -187,6 +211,10 @@ class Odontogram extends Component {
             }
         } catch (err) {
             console.error("Odontogram: Failed to save surface condition:", err);
+            this.notification.add(
+                err.message || "Failed to save the condition.",
+                { type: "danger" }
+            );
         }
     }
 
@@ -202,6 +230,7 @@ class Odontogram extends Component {
             treatment: this.state.editTreatment,
             notes: this.state.editNotes,
             conditionOptions: this.state.conditionOptions,
+            wholeTooth: this.selectedWholeTooth,
             onClose: () => this.closeDialog(),
             onSave: () => this.saveTooth(),
             onConditionChange: (ev) => this.onConditionChange(ev),

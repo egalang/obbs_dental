@@ -321,11 +321,22 @@ The module is designed to integrate seamlessly with existing Odoo applications.
 - [x] Five independent surfaces per tooth — Center circle + 4 arc quadrants (Top/Bottom/Left/Right)
 - [x] Surface-specific condition, treatment, and notes
 - [x] Complete FDI notation (11–48 permanent + 51–85 pediatric) — 52 teeth
-- [x] Modular architecture: `odontogram.js`, `tooth_layout.js`, `tooth_palette.js`, `tooth_dialog.js`
+- [x] Modular architecture: `odontogram.js`, `tooth_layout.js`, `tooth_dialog.js`
 - [x] `dental.tooth` + `dental.tooth.surface` normalized data model
 - [x] Surface-specific color coding and click-to-edit dialog
 - [x] Immediate Dental History tab refresh after save (no page reload required)
 - [x] Circular 90° quadrant arcs with distinct stroke outlines
+
+### Dental Condition Management ✅ *(Added in 1.1.0)*
+
+- [x] Conditions moved from a hardcoded Selection to a `dental.condition` model (admin-managed)
+- [x] Admin-managed color per condition (colored options in the chart dialog + legend)
+- [x] `apply_to_whole_tooth` flag — 7 conditions (Rf, PR, Po, MO, M, JC, Imp) apply to all 5 surfaces
+- [x] Whole-tooth conditions propagate treatment and notes to all surfaces
+- [x] Surface-specific conditions are blocked when a whole-tooth condition exists (ValidationError)
+- [x] Dental → Conditions menu with color widget and whole-tooth toggle
+- [x] Data migration (1.1.0) converts existing surface records to the new model
+- [x] Delete button in the Dental History tab (Manager group only)
 
 ---
 

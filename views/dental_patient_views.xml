@@ -125,6 +125,11 @@
                                     <field name="treatment"/>
                                     <field name="notes"/>
                                     <field name="date"/>
+                                    <button name="action_delete_surface" type="object"
+                                            string="Delete" icon="fa-trash"
+                                            title="Delete this dental history entry"
+                                            confirm="Are you sure you want to delete this dental history entry?"
+                                            groups="obbs_dental.group_dental_manager"/>
                                 </list>
                             </field>
                         </page>

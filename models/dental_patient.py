@@ -80,9 +80,10 @@ class DentalPatient(models.Model):
         store=False,
     )
 
-    _sql_constraints = [
-        ('unique_patient_number', 'unique(patient_number)', 'Patient Number must be unique.'),
-    ]
+    _unique_patient_number = models.Constraint(
+        'unique (patient_number)',
+        'Patient Number must be unique.',
+    )
 
     @api.model
     def _default_patient_number(self):
@@ -120,7 +121,10 @@ class DentalPatient(models.Model):
             if rec.email and not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', rec.email):
                 raise ValidationError('Invalid email address format.')
 
-    @api.depends('tooth_ids', 'tooth_ids.surface_ids', 'tooth_ids.surface_ids.condition', 'tooth_ids.surface_ids.treatment', 'tooth_ids.surface_ids.notes')
+    @api.depends('tooth_ids', 'tooth_ids.surface_ids', 'tooth_ids.surface_ids.condition',
+                 'tooth_ids.surface_ids.condition.code', 'tooth_ids.surface_ids.condition.name',
+                 'tooth_ids.surface_ids.condition.color', 'tooth_ids.surface_ids.condition.apply_to_whole_tooth',
+                 'tooth_ids.surface_ids.treatment', 'tooth_ids.surface_ids.notes')
     def _compute_tooth_conditions(self):
         import json
         for rec in self:
@@ -131,7 +135,10 @@ class DentalPatient(models.Model):
                 for srf in tooth.surface_ids.sorted('date', reverse=True):
                     if srf.surface not in latest:
                         latest[srf.surface] = {
-                            'condition': srf.condition,
+                            'condition': srf.condition.code if srf.condition else None,
+                            'label': srf.condition.name if srf.condition else None,
+                            'color': srf.condition.color if srf.condition else None,
+                            'wholeTooth': srf.condition.apply_to_whole_tooth if srf.condition else False,
                             'treatment': srf.treatment,
                             'notes': srf.notes,
                             'date': str(srf.date) if srf.date else None,

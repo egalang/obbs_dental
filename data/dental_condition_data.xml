@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="condition_present_tooth" model="dental.condition">
+            <field name="code">PR</field>
+            <field name="name">Present Tooth</field>
+            <field name="color">#4CAF50</field>
+            <field name="apply_to_whole_tooth">True</field>
+        </record>
+        <record id="condition_decayed" model="dental.condition">
+            <field name="code">D</field>
+            <field name="name">Decayed (Caries)</field>
+            <field name="color">#C0392B</field>
+        </record>
+        <record id="condition_amalgam" model="dental.condition">
+            <field name="code">Am</field>
+            <field name="name">Amalgam Filling</field>
+            <field name="color">#E67E22</field>
+        </record>
+        <record id="condition_composite" model="dental.condition">
+            <field name="code">Co</field>
+            <field name="name">Composite Filling</field>
+            <field name="color">#2ECC71</field>
+        </record>
+        <record id="condition_jacket_crown" model="dental.condition">
+            <field name="code">JC</field>
+            <field name="name">Jacket Crown</field>
+            <field name="color">#FFA000</field>
+            <field name="apply_to_whole_tooth">True</field>
+        </record>
+        <record id="condition_inlay" model="dental.condition">
+            <field name="code">In</field>
+            <field name="name">Inlay</field>
+            <field name="color">#FFB74D</field>
+        </record>
+        <record id="condition_sealant" model="dental.condition">
+            <field name="code">S</field>
+            <field name="name">Sealant</field>
+            <field name="color">#4FC3F7</field>
+        </record>
+        <record id="condition_missing_caries" model="dental.condition">
+            <field name="code">M</field>
+            <field name="name">Missing due to Caries</field>
+            <field name="color">#212121</field>
+            <field name="apply_to_whole_tooth">True</field>
+        </record>
+        <record id="condition_missing_other" model="dental.condition">
+            <field name="code">MO</field>
+            <field name="name">Missing due to Other Cause</field>
+            <field name="color">#7F8C8D</field>
+            <field name="apply_to_whole_tooth">True</field>
+        </record>
+        <record id="condition_extraction_caries" model="dental.condition">
+            <field name="code">X</field>
+            <field name="name">Extraction due to Caries</field>
+            <field name="color">#B71C1C</field>
+        </record>
+        <record id="condition_extraction_other" model="dental.condition">
+            <field name="code">XO</field>
+            <field name="name">Extraction due to Other Cause</field>
+            <field name="color">#D35400</field>
+        </record>
+        <record id="condition_root_fragment" model="dental.condition">
+            <field name="code">Rf</field>
+            <field name="name">Root Fragment</field>
+            <field name="color">#E91E63</field>
+            <field name="apply_to_whole_tooth">True</field>
+        </record>
+        <record id="condition_impacted" model="dental.condition">
+            <field name="code">Im</field>
+            <field name="name">Impacted Tooth</field>
+            <field name="color">#9C27B0</field>
+        </record>
+        <record id="condition_unerupted" model="dental.condition">
+            <field name="code">Un</field>
+            <field name="name">Unerupted</field>
+            <field name="color">#90A4AE</field>
+        </record>
+        <record id="condition_supernumerary" model="dental.condition">
+            <field name="code">Sp</field>
+            <field name="name">Supernumerary Tooth</field>
+            <field name="color">#CE93D8</field>
+        </record>
+        <record id="condition_bruxism" model="dental.condition">
+            <field name="code">BR</field>
+            <field name="name">Bruxism</field>
+            <field name="color">#7E57C2</field>
+        </record>
+        <record id="condition_abrasion" model="dental.condition">
+            <field name="code">ABR</field>
+            <field name="name">Abrasion</field>
+            <field name="color">#26A69A</field>
+        </record>
+        <record id="condition_abfraction" model="dental.condition">
+            <field name="code">ABF</field>
+            <field name="name">Abfraction</field>
+            <field name="color">#EF5350</field>
+        </record>
+        <record id="condition_implant" model="dental.condition">
+            <field name="code">Imp</field>
+            <field name="name">Implant</field>
+            <field name="color">#F1C40F</field>
+            <field name="apply_to_whole_tooth">True</field>
+        </record>
+        <record id="condition_abutment" model="dental.condition">
+            <field name="code">Abu</field>
+            <field name="name">Abutment</field>
+            <field name="color">#8E44AD</field>
+        </record>
+        <record id="condition_attachment" model="dental.condition">
+            <field name="code">Att</field>
+            <field name="name">Attachment</field>
+            <field name="color">#FFCC80</field>
+        </record>
+        <record id="condition_pontic" model="dental.condition">
+            <field name="code">Po</field>
+            <field name="name">Pontic</field>
+            <field name="color">#1ABC9C</field>
+            <field name="apply_to_whole_tooth">True</field>
+        </record>
+        <record id="condition_removable" model="dental.condition">
+            <field name="code">Rm</field>
+            <field name="name">Removable Denture</field>
+            <field name="color">#3498DB</field>
+        </record>
+    </data>
+</odoo>
